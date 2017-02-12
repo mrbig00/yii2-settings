@@ -1,16 +1,14 @@
 <?php
-
 /**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
+ * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
-namespace pheme\settings\controllers;
+namespace mrbig00\settings\controllers;
 
 use Yii;
-use pheme\settings\models\Setting;
-use pheme\settings\models\SettingSearch;
+use mrbig00\settings\models\Setting;
+use mrbig00\settings\models\SettingSearch;
 use pheme\grid\actions\ToggleAction;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,19 +18,20 @@ use yii\filters\VerbFilter;
 /**
  * SettingsController implements the CRUD actions for Setting model.
  *
- * @author Aris Karageorgos <aris@phe.me>
+ * @author Zoltán Szántó <mrbig00@gmail.com>
  */
 class DefaultController extends Controller
 {
     /**
      * Defines the controller behaviors
+     *
      * @return array
      */
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'  => [
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
                 ],
@@ -53,15 +52,16 @@ class DefaultController extends Controller
     {
         return [
             'toggle' => [
-                'class' => ToggleAction::className(),
-                'modelClass' => 'pheme\settings\models\Setting',
+                'class'      => ToggleAction::className(),
+                'modelClass' => 'mrbig00\settings\models\Setting',
                 //'setFlash' => true,
-            ]
+            ],
         ];
     }
 
     /**
      * Lists all Settings.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -72,7 +72,7 @@ class DefaultController extends Controller
         return $this->render(
             'index',
             [
-                'searchModel' => $searchModel,
+                'searchModel'  => $searchModel,
                 'dataProvider' => $dataProvider,
             ]
         );
@@ -80,7 +80,9 @@ class DefaultController extends Controller
 
     /**
      * Displays the details of a single Setting.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -96,6 +98,7 @@ class DefaultController extends Controller
     /**
      * Creates a new Setting.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -117,7 +120,9 @@ class DefaultController extends Controller
     /**
      * Updates an existing Setting.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionUpdate($id)
@@ -139,7 +144,9 @@ class DefaultController extends Controller
     /**
      * Deletes an existing Setting.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionDelete($id)
@@ -147,13 +154,16 @@ class DefaultController extends Controller
         if (Yii::$app->request->isPost) {
             $this->findModel($id)->delete();
         }
+
         return $this->redirect(['index']);
     }
 
     /**
      * Finds a Setting model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
+     *
      * @return Setting the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

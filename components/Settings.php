@@ -1,12 +1,10 @@
 <?php
-
 /**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
+ * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
-namespace pheme\settings\components;
+namespace mrbig00\settings;
 
 use yii\base\Component;
 use yii\caching\Cache;
@@ -20,11 +18,12 @@ class Settings extends Component
     /**
      * @var string settings model. Make sure your settings model calls clearCache in the afterSave callback
      */
-    public $modelClass = 'pheme\settings\models\BaseSetting';
+    public $modelClass = 'mrbig00\settings\models\BaseSetting';
 
     /**
      * Model to for storing and retrieving settings
-     * @var \pheme\settings\models\SettingInterface
+     *
+     * @var \mrbig00\settings\models\SettingInterface
      */
     protected $model;
 
@@ -53,7 +52,7 @@ class Settings extends Component
      *
      * @var string cache key
      */
-    public $cacheKey = 'pheme/settings';
+    public $cacheKey = 'mrbig00/settings';
 
     /**
      * Holds a cached copy of the data for the current request
@@ -89,9 +88,10 @@ class Settings extends Component
      * $value = $settings->get('key', 'section');
      * are equivalent
      *
-     * @param $key
+     * @param             $key
      * @param string|null $section
      * @param string|null $default
+     *
      * @return mixed
      */
     public function get($key, $section = null, $default = null)
@@ -115,15 +115,18 @@ class Settings extends Component
         } else {
             $data[$section][$key][0] = $default;
         }
+
         return $data[$section][$key][0];
     }
 
     /**
      * Checks to see if a setting exists.
      * If $searchDisabled is set to true, calling this function will result in an additional query.
-     * @param $key
+     *
+     * @param             $key
      * @param string|null $section
-     * @param boolean $searchDisabled
+     * @param boolean     $searchDisabled
+     *
      * @return boolean
      */
     public function has($key, $section = null, $searchDisabled = false)
@@ -137,10 +140,11 @@ class Settings extends Component
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param      $key
+     * @param      $value
      * @param null $section
      * @param null $type
+     *
      * @return boolean
      */
     public function set($key, $value, $section = null, $type = null)
@@ -156,14 +160,16 @@ class Settings extends Component
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Deletes a setting
      *
-     * @param $key
+     * @param             $key
      * @param null|string $section
+     *
      * @return bool
      */
     public function delete($key, $section = null)
@@ -173,6 +179,7 @@ class Settings extends Component
             $section = $pieces[0];
             $key = $pieces[1];
         }
+
         return $this->model->deleteSetting($section, $key);
     }
 
@@ -189,8 +196,9 @@ class Settings extends Component
     /**
      * Activates a setting
      *
-     * @param $key
+     * @param             $key
      * @param null|string $section
+     *
      * @return bool
      */
     public function activate($key, $section = null)
@@ -200,14 +208,16 @@ class Settings extends Component
             $section = $pieces[0];
             $key = $pieces[1];
         }
+
         return $this->model->activateSetting($section, $key);
     }
 
     /**
      * Deactivates a setting
      *
-     * @param $key
+     * @param             $key
      * @param null|string $section
+     *
      * @return bool
      */
     public function deactivate($key, $section = null)
@@ -217,6 +227,7 @@ class Settings extends Component
             $section = $pieces[0];
             $key = $pieces[1];
         }
+
         return $this->model->deactivateSetting($section, $key);
     }
 
@@ -235,6 +246,7 @@ class Settings extends Component
         if ($this->cache instanceof Cache) {
             return $this->cache->delete($this->cacheKey);
         }
+
         return true;
     }
 
@@ -259,6 +271,7 @@ class Settings extends Component
             }
             $this->_data = $data;
         }
+
         return $this->_data;
     }
 }

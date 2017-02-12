@@ -1,20 +1,19 @@
 <?php
 /**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
+ * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace pheme\settings\models;
+namespace mrbig00\settings\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * SettingSearch represents the model behind the search form about `pheme\settings\models\Setting`.
+ * SettingSearch represents the model behind the search form about `mrbig00\settings\models\Setting`.
  *
- * @author Aris Karageorgos <aris@phe.me>
+ * @author Zoltán Szántó <mrbig00@gmail.com>
  */
 class SettingSearch extends Setting
 {

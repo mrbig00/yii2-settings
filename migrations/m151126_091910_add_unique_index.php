@@ -1,7 +1,6 @@
 <?php
 /**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
+ * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
  * @license MIT http://opensource.org/licenses/MIT
  */
 

@@ -1,72 +1,69 @@
 <?php
 /**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
- * @license MIT http://opensource.org/licenses/MIT
+ * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use pheme\settings\Module;
-use pheme\settings\models\Setting;
+use mrbig00\settings\Module;
+use mrbig00\settings\models\Setting;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
-
+use rmrevin\yii\fontawesome\FA;
 /**
- * @var yii\web\View $this
- * @var pheme\settings\models\SettingSearch $searchModel
- * @var yii\data\ActiveDataProvider $dataProvider
+ * @var yii\web\View                        $this
+ * @var mrbig00\settings\models\SettingSearch $searchModel
+ * @var yii\data\ActiveDataProvider         $dataProvider
  */
 
 $this->title = Module::t('settings', 'Settings');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="setting-index">
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <?= $this->title; ?>
+        </h3>
+        <div class="box-tools pull-right">
+            <?=
+            Html::a(
+                FA::icon('plus'),
+                ['create'],
+                ['class' => 'btn btn-box-tool']
+            ) ?>
+        </div>
+    </div>
+    <div class="box-body">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
+        <?php Pjax::begin(); ?>
         <?=
-        Html::a(
-            Module::t(
-                'settings',
-                'Create {modelClass}',
-                [
-                    'modelClass' => Module::t('settings', 'Setting'),
-                ]
-            ),
-            ['create'],
-            ['class' => 'btn btn-success']
-        ) ?>
-    </p>
-    <?php Pjax::begin(); ?>
-    <?=
-    GridView::widget(
-        [
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                'id',
-                //'type',
-                [
-                    'attribute' => 'section',
-                    'filter' => ArrayHelper::map(
-                        Setting::find()->select('section')->distinct()->where(['<>', 'section', ''])->all(),
-                        'section',
-                        'section'
-                    ),
+        GridView::widget(
+            [
+                'dataProvider' => $dataProvider,
+                'filterModel'  => $searchModel,
+                'columns'      => [
+                    'id',
+                    'type',
+                    [
+                        'attribute' => 'section',
+                        'filter'    => ArrayHelper::map(
+                            Setting::find()->select('section')->distinct()->where(['<>', 'section', ''])->all(),
+                            'section',
+                            'section'
+                        ),
+                    ],
+                    'key',
+                    'value:ntext',
+                    [
+                        'class'     => '\pheme\grid\ToggleColumn',
+                        'attribute' => 'active',
+                        'filter'    => [1 => Yii::t('yii', 'Yes'), 0 => Yii::t('yii', 'No')],
+                    ],
+                    ['class' => 'yii\grid\ActionColumn'],
                 ],
-                'key',
-                'value:ntext',
-                [
-                    'class' => '\pheme\grid\ToggleColumn',
-                    'attribute' => 'active',
-                    'filter' => [1 => Yii::t('yii', 'Yes'), 0 => Yii::t('yii', 'No')],
-                ],
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]
-    ); ?>
-    <?php Pjax::end(); ?>
+            ]
+        ); ?>
+        <?php Pjax::end(); ?>
+    </div>
 </div>

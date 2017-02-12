@@ -1,16 +1,15 @@
 <?php
 /**
- * @link http://phe.me
- * @copyright Copyright (c) 2014 Pheme
+ * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace pheme\settings\models;
+namespace mrbig00\settings\models;
 
 use Yii;
 use yii\helpers\Json;
 use yii\base\DynamicModel;
-use pheme\settings\Module;
+use mrbig00\settings\Module;
 use yii\base\InvalidParamException;
 
 /**
