@@ -11,10 +11,11 @@ use mrbig00\settings\models\Setting;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use rmrevin\yii\fontawesome\FA;
+
 /**
- * @var yii\web\View                        $this
+ * @var yii\web\View                          $this
  * @var mrbig00\settings\models\SettingSearch $searchModel
- * @var yii\data\ActiveDataProvider         $dataProvider
+ * @var yii\data\ActiveDataProvider           $dataProvider
  */
 
 $this->title = Module::t('settings', 'Settings');
@@ -30,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Html::a(
                 FA::icon('plus'),
                 ['create'],
-                ['class' => 'btn btn-box-tool']
+                ['class' => 'btn btn-box-tool', 'title' => Module::t('settings', 'Add new')]
             ) ?>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
- * @license MIT http://opensource.org/licenses/MIT
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
 namespace mrbig00\settings\models;
@@ -19,13 +19,13 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "settings".
  *
  * @property integer $id
- * @property string $type
- * @property string $section
- * @property string $key
- * @property string $value
+ * @property string  $type
+ * @property string  $section
+ * @property string  $key
+ * @property string  $value
  * @property boolean $active
- * @property string $created
- * @property string $modified
+ * @property string  $created
+ * @property string  $modified
  *
  * @author Aris Karageorgos <aris@phe.me>
  */
@@ -77,12 +77,12 @@ class BaseSetting extends ActiveRecord implements SettingInterface
     {
         return [
             'timestamp' => [
-                'class' => TimestampBehavior::className(),
+                'class'      => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'created',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'modified',
                 ],
-                'value' => new Expression('NOW()'),
+                'value'      => new Expression('NOW()'),
             ],
         ];
     }
@@ -93,6 +93,7 @@ class BaseSetting extends ActiveRecord implements SettingInterface
     public function getSettings()
     {
         $settings = static::find()->where(['active' => true])->asArray()->all();
+
         return array_merge_recursive(
             ArrayHelper::map($settings, 'key', 'value', 'section'),
             ArrayHelper::map($settings, 'key', 'type', 'section')
@@ -144,8 +145,10 @@ class BaseSetting extends ActiveRecord implements SettingInterface
 
         if ($model && $model->active == 0) {
             $model->active = 1;
+
             return $model->save();
         }
+
         return false;
     }
 
@@ -158,8 +161,10 @@ class BaseSetting extends ActiveRecord implements SettingInterface
 
         if ($model && $model->active == 1) {
             $model->active = 0;
+
             return $model->save();
         }
+
         return false;
     }
 
@@ -173,6 +178,7 @@ class BaseSetting extends ActiveRecord implements SettingInterface
         if ($model) {
             return $model->delete();
         }
+
         return true;
     }
 
@@ -187,7 +193,8 @@ class BaseSetting extends ActiveRecord implements SettingInterface
     /**
      * @inheritdoc
      */
-    public function findSetting($key, $section = null) {
+    public function findSetting($key, $section = null)
+    {
         if (is_null($section)) {
             $pieces = explode('.', $key, 2);
             if (count($pieces) > 1) {
@@ -197,6 +204,7 @@ class BaseSetting extends ActiveRecord implements SettingInterface
                 $section = '';
             }
         }
+
         return $this->find()->where(['section' => $section, 'key' => $key])->limit(1)->one();
     }
 }

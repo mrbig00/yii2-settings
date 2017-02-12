@@ -1,22 +1,24 @@
 <?php
 /**
  * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
- * @license MIT http://opensource.org/licenses/MIT
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
 namespace mrbig00\settings\models;
 
 /**
  * Interface SettingInterface
+ *
  * @package mrbig00\settings\models
  *
- * @author Zoltán Szántó <mrbig00@gmail.com>
+ * @author  Zoltán Szántó <mrbig00@gmail.com>
  */
 interface SettingInterface
 {
 
     /**
      * Gets a combined map of all the settings.
+     *
      * @return array
      */
     public function getSettings();
@@ -28,6 +30,7 @@ interface SettingInterface
      * @param $key
      * @param $value
      * @param $type
+     *
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
@@ -38,12 +41,14 @@ interface SettingInterface
      *
      * @param $key
      * @param $section
+     *
      * @return boolean True on success, false on error
      */
     public function deleteSetting($section, $key);
 
     /**
      * Deletes all settings! Be careful!
+     *
      * @return boolean True on success, false on error
      */
     public function deleteAllSettings();
@@ -53,6 +58,7 @@ interface SettingInterface
      *
      * @param $key
      * @param $section
+     *
      * @return boolean True on success, false on error
      */
     public function activateSetting($section, $key);
@@ -62,6 +68,7 @@ interface SettingInterface
      *
      * @param $key
      * @param $section
+     *
      * @return boolean True on success, false on error
      */
     public function deactivateSetting($section, $key);
@@ -71,6 +78,7 @@ interface SettingInterface
      *
      * @param $key
      * @param $section
+     *
      * @return SettingInterface single setting
      */
     public function findSetting($section, $key);

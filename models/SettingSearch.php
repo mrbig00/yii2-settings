@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
- * @license MIT http://opensource.org/licenses/MIT
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
 namespace mrbig00\settings\models;
@@ -40,6 +40,7 @@ class SettingSearch extends Setting
 
     /**
      * @param $params
+     *
      * @return ActiveDataProvider
      */
     public function search($params)
@@ -58,8 +59,8 @@ class SettingSearch extends Setting
 
         $query->andFilterWhere(
             [
-                'id' => $this->id,
-                'active' => $this->active,
+                'id'      => $this->id,
+                'active'  => $this->active,
                 'section' => $this->section,
             ]
         );

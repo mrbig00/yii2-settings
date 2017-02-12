@@ -20,7 +20,9 @@
   ],
   "require": {
     "yiisoft/yii2": ">=2.0.6",
-    "pheme/yii2-toggle-column": "*"
+    "pheme/yii2-toggle-column": "*",
+    "rmrevin/yii2-fontawesome": "~2.17",
+    "kartik-v/yii2-widgets": "*"
   },
   "autoload": {
     "psr-4": {

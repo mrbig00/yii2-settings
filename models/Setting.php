@@ -1,12 +1,14 @@
 <?php
 /**
  * @copyright Copyright (c) 2017 Zoltán Szántó <mrbig00@gmail.com>
- * @license MIT http://opensource.org/licenses/MIT
+ * @license   MIT http://opensource.org/licenses/MIT
  */
 
 namespace mrbig00\settings\models;
 
+use mrbig00\settings\components\Settings;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\base\DynamicModel;
 use mrbig00\settings\Module;
@@ -21,30 +23,35 @@ class Setting extends BaseSetting
 {
     /**
      * @param bool $forDropDown if false - return array or validators, true - key=>value for dropDown
+     *
      * @return array
      */
     public function getTypes($forDropDown = true)
     {
         $values = [
-            'string' => ['value', 'string'],
+            'string'  => ['value', 'string'],
             'integer' => ['value', 'integer'],
             'boolean' => ['value', 'boolean', 'trueValue' => "1", 'falseValue' => "0", 'strict' => true],
-            'float' => ['value', 'number'],
-            'email' => ['value', 'email'],
-            'ip' => ['value', 'ip'],
-            'url' => ['value', 'url'],
-            'object' => [
+            'float'   => ['value', 'number'],
+            'email'   => ['value', 'email'],
+            'ip'      => ['value', 'ip'],
+            'url'     => ['value', 'url'],
+            'object'  => [
                 'value',
                 function ($attribute, $params) {
                     $object = null;
                     try {
                         Json::decode($this->$attribute);
                     } catch (InvalidParamException $e) {
-                        $this->addError($attribute, Module::t('settings', '"{attribute}" must be a valid JSON object', [
-                            'attribute' => $attribute,
-                        ]));
+                        $this->addError(
+                            $attribute, Module::t(
+                            'settings', '"{attribute}" must be a valid JSON object', [
+                                          'attribute' => $attribute,
+                                      ]
+                        )
+                        );
                     }
-                }
+                },
             ],
         ];
 
@@ -72,8 +79,8 @@ class Setting extends BaseSetting
                 ['key'],
                 'unique',
                 'targetAttribute' => ['section', 'key'],
-                'message' =>
-                    Module::t('settings', '{attribute} "{value}" already exists for this section.')
+                'message'         =>
+                    Module::t('settings', '{attribute} "{value}" already exists for this section.'),
             ],
             ['type', 'in', 'range' => array_keys($this->getTypes(false))],
             [['type', 'created', 'modified'], 'safe'],
@@ -86,17 +93,21 @@ class Setting extends BaseSetting
         $validators = $this->getTypes(false);
         if (!array_key_exists($this->type, $validators)) {
             $this->addError('type', Module::t('settings', 'Please select correct type'));
+
             return false;
         }
 
-        $model = DynamicModel::validateData([
-            'value' => $this->value
-        ], [
-            $validators[$this->type],
-        ]);
+        $model = DynamicModel::validateData(
+            [
+                'value' => $this->value,
+            ], [
+                $validators[$this->type],
+            ]
+        );
 
         if ($model->hasErrors()) {
             $this->addError('value', $model->getFirstError('value'));
+
             return false;
         }
 
@@ -113,14 +124,23 @@ class Setting extends BaseSetting
     public function attributeLabels()
     {
         return [
-            'id' => Module::t('settings', 'ID'),
-            'type' => Module::t('settings', 'Type'),
-            'section' => Module::t('settings', 'Section'),
-            'key' => Module::t('settings', 'Key'),
-            'value' => Module::t('settings', 'Value'),
-            'active' => Module::t('settings', 'Active'),
-            'created' => Module::t('settings', 'Created'),
+            'id'       => Module::t('settings', 'ID'),
+            'type'     => Module::t('settings', 'Type'),
+            'section'  => Module::t('settings', 'Section'),
+            'key'      => Module::t('settings', 'Key'),
+            'value'    => Module::t('settings', 'Value'),
+            'active'   => Module::t('settings', 'Active'),
+            'created'  => Module::t('settings', 'Created'),
             'modified' => Module::t('settings', 'Modified'),
         ];
     }
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getDistinctSections()
+    {
+        return ArrayHelper::getColumn(static::find()->groupBy('section')->select('section')->asArray()->all(), 'section');
+    }
+
 }

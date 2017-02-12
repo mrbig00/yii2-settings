@@ -4,7 +4,7 @@
  * @license   MIT http://opensource.org/licenses/MIT
  */
 
-namespace mrbig00\settings;
+namespace mrbig00\settings\components;
 
 use yii\base\Component;
 use yii\caching\Cache;
